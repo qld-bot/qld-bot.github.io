@@ -1,0 +1,251 @@
+Clash Verge_2.5.7_x64-setup.exe
+Clash Verge Rev 目前仅通过其官方 GitHub 仓库发布。以下为您整理的官方下载链接及最简基础配置教程： [1, 2] 
+## 🛠️ 第一步：官方下载与安装
+请前往 [Clash Verge Rev GitHub Releases 官方下载页面](https://github.com/clash-verge-rev/clash-verge-rev/releases) 下载对应系统的最新稳定版（带有 Latest 标签）： [3, 4] 
+
+* 
+* Windows 用户：绝大多数电脑直接下载 Clash.Verge_xxxx_x64_zh-CN.msi（或 .exe）。如果界面打开后是一片白屏或弹窗报错，请改下载带有 fix_webview2 字样的版本。
+* macOS 用户：Intel 芯片下载 _x64.dmg；苹果 M 系列芯片（M1/M2/M3等）下载 _aarch64.dmg。
+* Linux 用户：根据发行版选择 _amd64.deb 或 .AppImage。 [5, 6] 
+* 
+
+------------------------------
+## 🚀 第二步：基础配置教程（快速上手）
+软件安装完成后，请按照以下 4 个步骤进行配置：
+## 1. 导入订阅链接
+
+   1. 打开客户端，点击左侧菜单栏的 「订阅 (Profiles)」。
+   2. 在上方的输入框中，粘贴你从服务商（机场）复制的 Clash 订阅链接 (URL)。
+   3. 点击 「导入 (Import)」 按钮。
+   4. 导入成功后，列表中会出现一个新的配置块。用鼠标左键单击它，使其边缘变色（即代表激活启用该配置）。 [4, 7] 
+
+## 2. 选择代理节点
+
+   1. 点击左侧菜单栏的 「代理 (Proxies)」。
+   2. 在右上角的代理模式中，默认保持 「规则 (Rule)」 即可（此模式会自动分流：国内流量直连，国外受阻网站走代理）。
+   3. 点击展开主策略组（通常名为 Proxy、节点选择 或 🚀 节点选择），在下方节点列表中单击选择一个具体的海外节点（如 香港、日本、台湾 等）。 [4] 
+
+## 3. 开启系统代理
+
+   1. 点击左侧菜单栏的 「设置 (Settings)」。
+   2. 找到 「系统代理 (System Proxy)」 选项，将右侧的开关打开（变为蓝色或紫色激活状态）。
+   3. 此时，你的电脑已经可以通过浏览器正常访问海外学术或社交网站了。 [4, 5] 
+
+## 4. 推荐常驻设置（可选）
+
+* 
+* 开机自启：在「设置」中开启 「开机自启 (Start on Login)」，方便每次开机后自动后台运行。
+* 语言切换：如果界面默认是英文，可在「设置」->「语言 (Language)」中将其修改为 简体中文。 [4] 
+* 
+
+如果在配置过程中遇到问题，请告诉我：
+
+   1. 你目前使用的是 Windows 还是 macOS 系统？
+   2. 在进行到哪一步时遇到了阻碍（例如：订阅导入失败、系统代理打不开 或是 开启后依然无法网页浏览）？
+
+
+[1] [https://www.clashverge.dev](https://www.clashverge.dev/install.html)
+[2] [https://www.clashverge.dev](https://www.clashverge.dev/install.html)
+[3] [https://github.com](https://github.com/clashbk/clash/wiki/clash-verge-rev)
+[4] [https://github.com](https://github.com/clashbk/clash/wiki/clash-verge-rev)
+[5] [https://github.com](https://github.com/clashbk/clash/wiki/clash-verge)
+[6] [https://www.clashverge.dev](https://www.clashverge.dev/install.html)
+[7] [https://nexusvpn.ltd](https://nexusvpn.ltd/blog/clash-verge-complete-setup-guide-2026)
+
+----------------
+verge高级配置-->当前配置.如何打开修改?verge高级配置-->当前配置.保存位置?
+	Clash Verge (以及目前主流的 [Clash Verge Rev](https://github.com/clash-verge-rev/clash-verge-rev)) 的当前激活配置文件和用户数据默认保存在系统应用数据目录下。 [1] 
+	根据你使用的操作系统，具体保存位置如下：
+	## 📂 不同系统的默认保存位置
+
+	* 
+	* Windows 系统：
+	按下 Win + R 键打开运行窗口，输入以下路径并回车即可直达：
+
+	%APPDATA%\io.github.clash-verge-rev.clash-verge-rev
+
+	(或者手动访问：C:\Users\你的用户名\AppData\Roaming\io.github.clash-verge-rev.clash-verge-rev)
+	* macOS 系统：
+
+	~/Library/Application Support/io.github.clash-verge-rev.clash-verge-rev
+
+	* Linux 系统： [2] 
+
+	~/.config/io.github.clash-verge-rev.clash-verge-rev
+
+	* 
+    C:\Users\x\AppData\Roaming\io.github.clash-verge-rev.clash-verge-rev\profiles\Merge.yaml   #dns 设置
+------------------------------
+核心文件对应关系
+    进入上述目录后，你会看到以下关键结构：
+
+    * 
+    * verge.yaml：软件本身的“设置”与“高级配置”信息。
+    * profiles/ 文件夹：这里存放了你当前运行的所有订阅文件和本地配置文件。里面类似 xxxxxxx.yaml 的文件就是你正在使用的节点配置。 [3, 4] 
+    * 
+
+    ## 💡 快捷查看方法
+    如果你想直接修改或查看内核生成的最终合并配置，可以打开软件，在左侧菜单点击 “订阅 (Profiles)”，右键点击你当前正在启用的那张配置卡片，选择 “编辑文件 (Edit File)” 或 “查看文件 (View File)”，即可直接在软件内或调用文本编辑器打开对应的本地文件。 [3, 5] 
+
+    [1] [https://github.com](https://github.com/clash-verge-rev/clash-verge-rev/discussions/2772)
+    [2] [https://github.com](https://github.com/clash-verge-rev/clash-verge-rev/issues/5618)
+    [3] [https://www.clashverge.dev](https://www.clashverge.dev/guide/profile.html)
+    [4] [https://github.com](https://github.com/clash-verge-rev/clash-verge-rev/issues/653)
+    [5] [https://www.clashverge.dev](https://www.clashverge.dev/guide/url_schemes.html)
+
+
+
+-----------------------------
+当前配置  只读？ 我要进入原文件上修改？
+   “当前配置 (Runtime Config)”在软件界面里确实是只读的，无法直接点击修改。这是因为该文件是由软件将你的“订阅文件 + 扩展设置 + 覆写规则”在内存中动态合并后渲染出来的，不能直接反向编辑。 [1] 
+    如果你想修改配置，绝对不建议直接去刚才提到的文件夹里强行修改原文件。因为一旦你点击了软件里的“刷新/更新订阅”，你手动修改的代码就会瞬间被完全覆盖抹去。 [2, 3] 
+    正确的持久化修改方法有两种：
+ 🎯 方法一：直接修改本地配置文件（适合非在线订阅）
+       如果你使用的是自己创建的本地文件或不打算再更新的订阅：
+
+       1. 打开 [Clash Verge Rev](https://github.com/clash-verge-rev/clash-verge-rev)，点击左侧的 “订阅 (Profiles)”。
+       2. 找到你要修改的配置卡片，鼠标右键点击它。
+       3. 选择 “编辑文件 (Edit File)”。
+       4. 此时会弹出一个内置的文本编辑器，在这里进行修改，修改完成后点击右下角的 “保存 (Save)”。
+       5. 再次右键该卡片，点击 “使用 (Use)” 重新激活即可。 [4] 
+
+    ------------------------------
+ 🛡️ 方法二：使用“扩展配置/脚本”（官方推荐，适合在线更新的订阅）
+       如果你的订阅是机场提供的、需要经常更新，请使用以下方法。这样即使订阅更新，你的自定义修改也不会丢失：
+       选项 A：简单修改（如加几条自定义规则）
+
+       1. 点击左侧的 “订阅 (Profiles)”。
+       2. 右键点击你的订阅卡片，选择 “扩展配置 (Merge)”。
+       3. 在弹出的编辑框中，按照标准 YAML 格式添加你要置顶的规则。例如：
+       -----
+       prepend-rules:
+         - DOMAIN-SUFFIX,google.com,PROXY
+         - DOMAIN-KEYWORD,baidu,DIRECT
+       -----
+       4. 保存后，下次更新订阅时，这些规则会自动合并进你的“当前配置”中。 [3, 4] 
+
+    选项 B：全局修改（对所有订阅生效）
+
+       1. 点击左侧的 “设置 (Settings)”。
+       2. 找到 “扩展配置 (Merge)” 或 “脚本 (Script)” 项。
+       3. 点击右侧的编辑按钮，在此处写入的策略或规则会全局叠加到你切换的任何订阅中。 [2, 5] 
+
+      请问你想要修改的具体是哪一部分配置（例如：想添加几条自定义分流规则、修改DNS设置，还是修改代理组）？我可以为你提供对应的修改模板。
+
+      [1] [https://github.com](https://github.com/clash-verge-rev/clash-verge-rev/issues/1643)
+      [2] [https://github.com](https://github.com/clash-verge-rev/clash-verge-rev/issues/3395)
+      [3] [https://github.com](https://github.com/clash-verge-rev/clash-verge-rev/issues/1036)
+      [4] [https://clashverge.net](https://clashverge.net/rev-tutorials/)
+      [5] [https://github.com](https://github.com/clash-verge-rev/clash-verge-rev/releases)
+     
+ ------------------------ 
+ 
+这个在什么地方修改。?  
+图片中展示的是 Clash 内核的 DNS 配置部分。在 [Clash Verge Rev](https://github.com/clash-verge-rev/clash-verge-rev) 中，修改这部分内容有两种最常用的正确方式： [1, 2] 
+## 🛠️ 方式一：使用内置的“DNS 覆写”界面（图形化修改，最简单）
+   软件自带了可视化修改 DNS 的功能，会直接用最高优先级覆盖订阅文件中的旧 DNS： [3] 
+
+   1. 打开 Clash Verge Rev 客户端。
+   2. 点击左侧菜单的 “设置 (Settings)”。
+   3. 在右侧列表中找到 “DNS 覆写 (DNS Override)” 选项。
+   4. 点击旁边的 “编辑 (Edit)”（通常是一个小齿轮或铅笔图标）。
+   5. 在弹出的可视化界面中，开启开关，然后你就可以在对应的文本框中增删或修改你的 nameserver、default-nameserver 以及 fallback 设置了。 [3] 
+
+------------------------------
+🛡️ 方式二：使用“扩展配置 (Merge)”（代码修改，最推荐）
+   如果你希望直接通过编写 YAML 代码来彻底修改并细化 DNS，同时保证订阅更新时不会被覆盖，可以使用扩展配置： [2, 4] 
+## 🎯 情况 A：只对单张订阅配置文件生效
+
+   1. 点击左侧的 “订阅 (Profiles)”。
+   2. 找到你当前正在运行的那个订阅卡片，鼠标右键点击它。
+   3. 选择 “扩展配置 (Merge)”。
+   4. 将你的自定义 DNS 代码段（类似图片中的格式）直接贴进去：
+   -----------------
+   dns:
+     enable: true
+     enhanced-mode: fake-ip
+     default-nameserver:
+       - https://1.1.1.1/dns-query
+       - https://8.8.8.8/dns-query
+     nameserver:
+       - https://1.1.1.1/dns-query#LOCAL-DNS-PROXY
+       - https://8.8.8.8/dns-query#LOCAL-DNS-PROXY
+   -------------------
+   5. 点击右下角的 “保存 (Save)” 并确保重新激活了该卡片。 [2] 
+
+  🌍 情况 B：对所有订阅生效（全局扩展）
+
+    正确的全局配置进入方法
+
+    1. 点击软件左侧菜单的 “订阅 (Profiles)”。
+    2. 此时看向界面的最顶部/右上方，你会看到除了你的机场卡片外，还有几个独立的特殊卡片（或小图标/文字按钮），它们分别叫：
+        • 全局扩展配置 (Global Extended Configuration / Global Merge)
+        • 全局扩展脚本 (Global Extended Script)
+    3. 鼠标右键点击 “全局扩展配置” 这张卡片，选择 “编辑文件 (Edit File)”。
+    4. 把我上面发给你的那段完整 dns: 代码粘贴进去，然后点击右下角的 “保存 (Save)”。
+    5. 最关键的一步： 再次右键点击“全局扩展配置”卡片，选择 “启用 (Enable)”，直到它的卡片边框变绿或打上勾（部分版本是点击右上角的 🔥 图标或刷新按钮激活）。
+   
+--------------------------
+已经为你将上一张图片中的 cache-algorithm: arc、加密的 Default-Nameserver 节点，以及绑定了指定策略组（#LOCAL-DNS-PROXY）的加密 DoH 服务端 完美融合到了你原本的配置中。
+合并时做了一些兼容性优化：保留了你原配置中关键的 listen: ':53'（接管本地网络 DNS）以及完整的国内分流黑名单、IPv6 选项和降级过滤器，确保既能实现上一张图的国外加密解析，又不会导致国内网络减速。
+你可以直接复制以下完整的合并代码，粘贴到你的 扩展配置 (Merge) 中：
+==============
+dns:
+  enable: true
+  cache-algorithm: arc # 从图1优化引入：使用高性能的智能缓存算法
+  listen: ':53'
+  enhanced-mode: 'fake-ip'
+  fake-ip-range: '198.18.0.1/16'
+  fake-ip-range6: 'fdfe:dcba:9876::1/64'
+  fake-ip-filter-mode: 'blacklist'
+  prefer-h3: false
+  respect-rules: false
+  use-hosts: false
+  use-system-hosts: false
+  ipv6: true
+  fake-ip-filter:
+    - '*.lan'
+    - '*.local'
+    - '*.arpa'
+    - 'time.*.com'
+    - 'ntp.*.com'
+    - '+.market.xiaomi.com'
+    - 'localhost.ptlogin2.qq.com'
+    - '*.msftncsi.com'
+    - 'www.msftconnecttest.com'
+  default-nameserver:
+    - 'system'
+    - '223.6.6.6'
+    - '8.8.8.8'
+    - '2400:3200::1'
+    - '2001:4860:4860::8888'
+    - https://1.1.1.1/dns-query # 从图1优化引入：用于解析DoH域名的底层加密DNS
+    - https://8.8.8.8/dns-query # 从图1优化引入
+  nameserver:
+    - '8.8.8.8'
+    - 'https://doh.pub/dns-query'
+    - 'https://dns.alidns.com/dns-query'
+    - https://1.1.1.1/dns-query#LOCAL-DNS-PROXY # 从图1优化引入：走指定策略组的国外加密DNS
+    - https://8.8.8.8/dns-query#LOCAL-DNS-PROXY # 从图1优化引入
+  nameserver-policy: {}
+  direct-nameserver-follow-policy: false
+  fallback-filter:
+    geoip: true
+    geoip-code: 'CN'
+    ipcidr:
+      - '240.0.0.0/4'
+      - '0.0.0.0/32'
+    domain:
+      - '+.google.com'
+      - '+.facebook.com'
+      - '+.youtube.com'
+  fallback: []
+  proxy-server-nameserver: []
+  direct-nameserver: []
+hosts: {}
+====================
+
+⚠️ 重要注意事项：
+
+代码中包含 #LOCAL-DNS-PROXY 后缀。请务必确认你的 Clash 订阅中已经存在一个名字完全叫做 LOCAL-DNS-PROXY 的策略组（Proxy Group）。如果你的机场或订阅里没有这个名字的策略组，保存后软件会报错导致无法启动内核。
+请问你的订阅策略组（即平时选节点的地方）里有 LOCAL-DNS-PROXY 这个分类吗？如果没有的话，你需要将 #LOCAL-DNS-PROXY 修改为你订阅中现有的策略组名称（比如 ✈️ 节点选择、PROXY 或 节点选择），你需要我帮你确认或修改这个策略组标签吗？
