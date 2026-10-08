@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>文件目录树</title>
+    <style>
+        /* 页面基础样式 */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        /* 列表容器样式，移除默认列表符号并设置缩进 */
+        ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        /* 隐藏文件夹的复选框 */
+        .folder > input {
+            display: none;
+        }
+
+        /* 文件夹和文件标签的公共样式，用于点击和对齐 */
+        .folder > label, .file > label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        /* 调整文件夹和文件图标的缩进，使其与父文件夹名称对齐 */
+        .file > label {
+            padding-left: 21px; /* 调整此值以实现精确对齐 */
+        }
+        
+        /* 默认隐藏子文件夹列表 */
+        .folder > input + label + ul {
+            display: none;
+        }
+
+        /* 当文件夹被选中时，显示其子列表 */
+        .folder > input:checked + label + ul {
+            display: block;
+        }
+
+        /* 文件夹图标的旋转箭头样式 */
+        .chev {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            margin-right: 5px;
+            transition: transform 0.2s;
+        }
+
+        /* 当文件夹被选中时，旋转箭头 */
+        .folder > input:checked + label .chev {
+            transform: rotate(90deg);
+        }
+
+        /* 文件夹和文件图标的样式 */
+        .node svg {
+            width: 1em;
+            height: 1em;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        /* 文件/文件夹名称的样式 */
+        .name {
+            font-weight: bold;
+        }
+
+        /* 文件内容容器的样式 */
+        .content {
+            display: none; /* 默认隐藏文件内容 */
+            margin-left: 20px; /* 为内容添加左侧缩进 */
+        }
+        
+        /* 为 txt 文件内容设置字体样式，使其与 docx 预览更相似 */
+        .txt-content {
+            font-family: Arial, Helvetica, 'Microsoft YaHei', '黑体', sans-serif;
+            line-height: 1.6;
+            white-space: pre-wrap; /* 允许文本自动换行 */
+        }
+
+        /* Excel 表格的样式 */
+        .xlsx-table {
+            width: 95%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .xlsx-table th, .xlsx-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .xlsx-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>文件目录树</h1>
+    <ul>
+        <li class="folder">
+            <input id="f1" type="checkbox" checked>
+            <label for="f1" class="node">
+                <span class="chev"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></span>
+                <span><svg viewBox="0 0 24 24"><path d="M3 4h18v18H3z" stroke="currentColor"/></svg></span>
+                <span class="name">代理教程</span>
+            </label>
+            <ul>
+                <li class="folder">
+                    <input id="f2" type="checkbox" checked>
+                    <label for="f2" class="node">
+                        <span class="chev"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></span>
+                        <span><svg viewBox="0 0 24 24"><path d="M7 3h10l4 4v14H7z" stroke="currentColor"/></svg></span>
+                        <span class="name">文档 (按名称排序)</span>
+                    </label>
+                    
+                    <ul id="docs-list">
+                                                            
+                        <li class="file" data-path="TXT/Clash Verge Rev 的下载或基础配置教程.html">
+                            <label class="node" onclick="toggleContent(this)">
+                                <span><svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z" stroke="currentColor"/></svg></span>
+                                <span class="name">Clash Verge Rev 的下载或基础配置教程.txt</span>
+                            </label>
+                            <div class="content">
+                                <h3>文档内容：Clash Verge Rev 的下载或基础配置教程.txt</h3>
+                                <iframe src="TXT/Clash Verge Rev 的下载或基础配置教程.txt"
+                                        style="width: 95%; height:700px; border: 1px solid #ccc; overflow: auto;"></iframe>
+                            </div>
+                        </li>
+                        
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    
+    <ul>
+        <li class="folder">
+            <input id="g1" type="checkbox" checked>
+            <label for="g1" class="node">
+                <span class="chev"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></span>
+                <span><svg viewBox="0 0 24 24"><path d="M3 4h18v18H3z" stroke="currentColor"/></svg></span>
+                <span class="name">AI</span>
+            </label>
+                <ul>
+                    <li class="folder">
+                        <input id="g2" type="checkbox" checked>
+                        <label for="g2" class="node">
+                            <span class="chev"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg></span>
+                            <span><svg viewBox="0 0 24 24"><path d="M7 3h10l4 4v14H7z" stroke="currentColor"/></svg></span>
+                            <span class="name">AI(按名称排序)</span>
+                        </label>
+                    
+                        <ul id="led-list">
+
+                                                   
+                        </ul>   
+                     </li>      
+                </ul>
+        </li>
+    </ul>
+    
+    <script>
+    /**
+     * 切换文件内容的显示/隐藏状态，并隐藏其他文件的内容
+     * @param {HTMLElement} element - 被点击的元素
+     */
+    function toggleContent(element) {
+        // 获取所有文件项
+        const allFiles = document.querySelectorAll('.file');
+        // 获取当前被点击的文件项
+        const currentFile = element.closest('.file');
+
+        // 遍历所有文件项
+        allFiles.forEach(file => {
+            const contentDiv = file.querySelector('.content');
+            // 确保文件项有内容容器
+            if (contentDiv) {
+                // 如果是当前点击的文件
+                if (file === currentFile) {
+                    // 切换当前文件内容的显示状态
+                    contentDiv.style.display = (contentDiv.style.display === 'block') ? 'none' : 'block';
+                } else {
+                    // 隐藏其他文件的内容
+                    contentDiv.style.display = 'none';
+                }
+            }
+        });
+    }
+
+    // --- 文档加载完成后执行 ---
+    document.addEventListener('DOMContentLoaded', function() {
+        const docsList = document.getElementById('docs-list');
+        const ledList = document.getElementById('led-list');
+
+        /**
+         * 处理文件列表：排序并显示文件数量
+         * @param {HTMLElement} listElement - 文件列表的父元素（如 docsList 或 ledList）
+         * @param {string} folderLabelId - 文件夹名称标签的ID，用于更新数字
+         */
+        function processFileList(listElement, folderLabelId) {
+            if (!listElement) return;
+
+            const fileItems = Array.from(listElement.children);
+            
+            // 按照文件名对文件列表进行排序
+            fileItems.sort((a, b) => {
+                const nameA = a.querySelector('.name').innerText.toLowerCase();
+                const nameB = b.querySelector('.name').innerText.toLowerCase();
+                return nameA.localeCompare(nameB, 'zh-CN');
+            });
+
+            // 将排序后的文件重新添加到 DOM 中
+            fileItems.forEach(item => listElement.appendChild(item));
+
+            // 在文件夹名称后显示文件数量
+            const folderLabel = document.querySelector(`label[for="${folderLabelId}"] .name`);
+            const fileCount = fileItems.length;
+            if (folderLabel) {
+                // 检查是否已添加过数字，避免重复添加
+                if (!folderLabel.innerText.includes(`(${fileCount})`)) {
+                    folderLabel.innerText += ` (${fileCount})`;
+                }
+            }
+        }
+
+        // 处理“文档”文件夹
+        processFileList(docsList, 'f2');
+
+        // 处理“LED”文件夹
+        processFileList(ledList, 'g2');
+    });
+</script>
+</body>
+</html>
