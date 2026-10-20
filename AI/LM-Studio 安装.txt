@@ -1,0 +1,12 @@
+LM-Studio 安装
+https://www.canirun.ai #测试电脑可安装什么版本
+AI Models install 位置
+C:\Users\x\.lmstudio\models\lmstudio-community\gemma-4-E4B-it-GGUF\
+------------------
+My Models-->设置-->load-->Context and Offioad(上下文长度),越大越好.
+---------------------
+My Models-->设置-->interence-->system prompt(系统提示): 填写如下
+你是一位有耐心且乐于助人的AI助理.
+请使用简体中文回答问题.
+不要编造一确定的资讯;如果你不知道,请直接说"不知道".
+不要使用太多专业术语;如果必须使用,请用英文加中文显示,并用用浅显的方式解释.
