@@ -1,0 +1,141 @@
+备份手机中的所有APK
+========================
+要备份手机中的所有 APK 安装包，具体取决于你是希望在手机上直接一键打包，还是希望通过电脑端用极客方式（ADB）进行纯净提取。
+针对不同的需求，可以采用以下几种安全、高效的备份方案：
+方案一：在手机上使用“开源/纯净的 APK 提取工具”（最方便）
+    如果你不想连接电脑，希望直接在手机上把已安装的 APP 导出为 .apk 文件，建议避开国内应用商店的臃肿工具，选择无广告、无多余权限的开源工具：
+    推荐工具：
+    在 Google Play 商店 或 F-Droid 搜索并下载 APK Extractor（或类似的开源 APK 提取器，如 App Backup & Share）。
+    操作步骤：
+    打开软件，它会列出你手机里安装的所有应用（包括系统应用和用户应用）。
+    勾选你需要备份的应用，点击“提取”或“导出”。
+    它会将 APK 文件直接保存到你手机的本地存储（如 Download 文件夹或专门的备份目录）中。
+    安全性说明：
+    这类工具只是“搬运”你手机里已经存在的安装包，它不需要联网，也不会上传任何隐私数据，用完即可卸载。
+方案二：通过 PC 端 ADB 命令行提取（最安全、无需在手机装任何软件）
+    作为喜欢掌控系统环境的极客用户，如果你有一台电脑，通过 ADB (Android Debug Bridge) 提取是最干净、最底层的方法，手机上不需要安装任何额外的备份 APP。
+    准备工作：
+    在手机上打开 设置 -> 关于手机 -> 软件信息，连续点击“版本号”直到提示“已启用开发者模式”。
+    返回主设置，打开 开发者选项，开启 USB 调试。
+    用数据线将手机连接到电脑，并在手机上点击“允许 USB 调试”。
+    导出步骤：
+    在电脑上打开命令行工具（CMD 或 PowerShell）。
+    输入以下命令列出所有第三方应用的包名和安装路径：
+    Bash
+    adb shell pm list packages -f -3
+    找到你想备份的应用路径（例如显示为 package:/data/app/~~xxxx../base.apk=com.tencent.mm）。
+    使用 adb pull 命令将其完整复制到电脑指定文件夹：
+    Bash
+    adb pull /data/app/~~xxxx../base.apk D:\Backup\wechat.apk
+⚠️ 关于“安全文件夹”里的应用如何备份？
+    如果你想备份的是放在三星安全文件夹 (Secure Folder) 里面的 APP（例如前面提到的银行 App 或敏感软件）：
+    常规手机 APP 无法直接抓取：因为安全文件夹有 Samsung Knox 的硬件级加密隔离，外面的应用和普通的提取工具是“看”不见里面内容的。
+    解决方法：
+    如果该软件在主系统或官方渠道还能下载到，通常不需要备份 APK，直接重新下载最安全。
+    如果是非常罕见的冷门小 APK 必须备份，可以通过 ADB 指定安全文件夹的独立用户空间（Android 多用户 ID，通常安全文件夹的用户 ID 是 150 或更高）进行路径读取和导出。
+===============================
+PS C:\Windows\system32> adb shell pm list packages -f -3
+adb : 无法将“adb”项识别为 cmdlet、函数、脚本文件或可运行程序的名称。请检查名称的拼写，如果包括路径，请确保路径正确
+，然后再试一次。
+所在位置 行:1 字符: 1
++ adb shell pm list packages -f -3
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (adb:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+===============================
+    这个提示非常明确：你的手机屏幕上弹出了一个“是否允许 USB 调试”的授权确认框，但你还没有在手机上点击“允许”。
+    这是 Android 的安全机制，用于防止未授权的电脑恶意读取手机数据。解决办法很简单：
+    解决步骤
+    查看手机屏幕：
+    点亮你的三星手机屏幕，检查上面是不是弹出了一个标题为“允许 USB 调试吗？”（Allow USB debugging?）的对话框。
+    确认授权：
+    勾选对话框下方的 “始终允许来自此计算机”（以便以后直接连接）。
+    点击 “允许” (Allow) 或“确定”。
+    在电脑上验证：
+    授权完成后，回到电脑的 PowerShell 终端，输入以下命令检查连接状态：
+    PowerShell
+    adb devices
+    如果返回结果中，你的设备状态显示为 device（而不是之前的 unauthorized），就说明授权成功了。
+    如果手机屏幕上始终没有弹出弹窗怎么办？
+    如果等了几秒钟手机屏幕毫无反应，可以尝试以下方法刷新连接：
+    重新插拔数据线：拔掉手机数据线再重新插上。
+    重置授权：在手机的 开发者选项 中，找到 “撤销 USB 调试授权”（Revoke USB debugging authorizations），点击撤销后重新插拔数据线，就会再次弹出授权框。
+    重启 ADB 服务：在电脑终端输入 adb kill-server，然后再运行 adb devices。
+-----
+在三星手机上，如果插上数据线后只弹出了“USB 设置 / USB 连接选项”（如选择传输文件、仅限充电等），而没有弹出“允许 USB 调试吗？”的对话框，通常是因为手机与电脑之间的调试通道没有真正触发。
+请按照以下步骤一步步排查和唤醒弹窗：
+第一步：检查并开启“开发者选项”中的 USB 调试
+    打开手机的 “设置”。
+    拉到最底部，看是否有 “开发者选项”：
+    如果没有：进入 关于手机 -> 软件信息，连续快速点击 “版本号” 7 次，直到系统提示“已开启开发者模式”。
+    如果已有：点击进入 “开发者选项”。
+    在开发者选项中，找到 “USB 调试” (USB debugging)，确保它是开启状态（如果本身就是开着的，可以尝试关掉再重新打开一次）。
+第二步：更改 USB 连接模式（触发系统重新识别）
+    当手机连接电脑时，下拉手机顶部通知栏，找到那个显示 “USB 正在为此设备充电” 或 “USB 设置” 的系统通知。
+    点击进入，将 USB 连接模式从“仅限充电”临时切换为 “传输文件 / Android Auto” (MTP)。
+    切换模式的瞬间，通常就会强制触发“允许 USB 调试吗？”的弹窗。
+第三步：强制在电脑端唤醒授权请求
+    如果在手机端做完上述操作依然没弹窗，可以通过电脑终端（PowerShell）主动发起握手，强制唤醒授权：
+    在电脑的 PowerShell 中，输入以下命令关闭当前的 ADB 服务：
+    PowerShell
+    adb kill-server
+    接着输入以下命令重新启动 ADB 服务并搜寻设备：
+    PowerShell
+    adb devices
+    此时立刻点亮并解锁手机屏幕，系统一般就会弹出 “允许 USB 调试吗？” 的授权窗口。
+第四步：若依然不弹出，清理过往授权
+    如果之前连接过其他电脑，可能导致授权状态卡死：
+    进入手机 设置 -> 开发者选项。
+    找到并点击 “撤销 USB 调试授权” (Revoke USB debugging authorizations)，点击确认。
+    拔掉 USB 数据线，重新插上，再次运行 adb devices 即可。
+    (提示：如果上述方法尝试后依然只有充电提示，建议换一根能够进行数据传输的数据线，部分仅充电的普通线缆无法传输调试信号。)
+---
+很好！你的终端已经成功与手机建立握手，并输出了第三方应用的路径列表。
+列表最后弹出的提示 Error: java.lang.SecurityException: Shell does not have permission to access user 150 恰好验证了我们前面聊过的安全机制：用户 ID 150 正是你的“安全文件夹”（Secure Folder）。普通的 Shell 权限无法直接扫描这个硬件级隔离空间，这也再次证明了安全文件夹内的绝对独立与安全。
+如何把列表里的 APK 批量或单独提取到电脑？
+从上面的输出看，应用已经被列得非常清晰。例如：
+支付宝：com.eg.android.AlipayGphone
+高德地图：com.autonavi.minimap
+百度地图：com.baidu.BaiduMap
+工商银行：com.icbc
+Firefox 浏览器：org.mozilla.firefox
+1. 提取单个 APP（以“支付宝”为例）
+    找到支付宝的那行路径：
+    /data/app/~~w7XnJ1gnhww-30xidCcoSw==/com.eg.android.AlipayGphone-V_bubIDUvVRHm4R6wuen8Q==/base.apk
+    在 PowerShell 中运行以下命令，将其导出到电脑桌面（或某个文件夹）：
+    PowerShell
+    C:\platform-tools\adb.exe pull "/data/app/~~w7XnJ1gnhww-30xidCcoSw==/com.eg.android.AlipayGphone-V_bubIDUvVRHm4R6wuen8Q==/base.apk" D:\Alipay.apk
+2. 批量提取所有第三方 APK（一键脚本）
+    如果你不想一个一个复制路径，可以在 PowerShell 中运行这行自动化命令，把列表里所有的第三方安装包一口气全部提取到电脑的 D:\BackupAPKs 文件夹中：
+    PowerShell
+    New-Item -ItemType Directory -Force -Path "D:\BackupAPKs"
+    & C:\platform-tools\adb.exe shell "pm list packages -f -3" | ForEach-Object {
+        if ($_ -match "package:(.+/base.apk)=(.+)") {
+            $apkPath = $matches[1]
+            $pkgName = $matches[2]
+            Write-Host "正在提取 $pkgName ..." -ForegroundColor Green
+            & C:\platform-tools\adb.exe pull $apkPath "D:\BackupAPKs\${pkgName}.apk"
+        }
+    }
+💡 极客小结
+通过这种 ADB 底层提取出来的 .apk：
+没有任何第三方工具中转，100% 原汁原味；
+提取出来的安装包可以作为纯净备份保存在电脑硬盘中，以后随时可以重新安装到手机上，无需再经过任何国内应用商店。
+-------------
+是的，完全成功提取并完成了！ 🎉
+从你的终端输出日志可以看到：
+com.cpuid.cpu_z (CPU-Z)：以 50.3 MB/s 的速度成功提取；
+com.samsung.ecomm.global.gbr (Samsung Shop)：以 57.3 MB/s 的速度成功提取；
+命令行最后恢复到了 PS C:\Windows\system32> 输入提示符，说明整个自动化提取脚本已经执行完毕。
+如何验证备份的文件？
+你可以直接打开电脑里的 D:\BackupAPKs 文件夹，里面应该已经静静躺着你手机里所有第三方 APP 的原始 .apk 安装包了（如 com.eg.android.AlipayGphone.apk、org.mozilla.firefox.apk 等）。
+💡 接下来该怎么做？
+归档与离线保存：
+你可以把这个 D:\BackupAPKs 文件夹复制到移动硬盘或你的 NAS/网盘里，作为一份纯净的离线软件库。
+重装/还原：
+以后手机重装、或者想恢复某个应用时，直接双击安装，或者通过命令行批量静默安装：
+PowerShell
+C:\platform-tools\adb.exe install "D:\BackupAPKs\com.eg.android.AlipayGphone.apk"
+关闭 USB 调试（安全建议）：
+备份完成后，建议去手机的 设置 -> 开发者选项 里，把 “USB 调试” 重新关掉。这样可以防止平时连接其他未授权设备时产生不必要的安全隐患。
+这样一来，你的手机应用备份既做到了 100% 官方原包、无污染，又完全不需要依赖任何国内第三方应用商店！
